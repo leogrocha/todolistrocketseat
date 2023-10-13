@@ -1,5 +1,6 @@
 package com.estudosrocketseat.todolist.user.service;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.estudosrocketseat.todolist.user.domain.User;
 import com.estudosrocketseat.todolist.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -15,11 +16,16 @@ public class UserService {
     @Transactional
     public User save(User user) {
         verificaUsername(user.getUsername());
+
+        var password = BCrypt.withDefaults().hashToString(12, user.getPassword().toCharArray());
+        user.setPassword(password);
         return repository.save(user);
     }
 
     public void verificaUsername(String username) {
-        if(repository.existsByUsername(username)) {
+        var user = repository.findByUsername(username);
+
+        if(user != null) {
             throw new RuntimeException("Username já cadastrado na base de dados.");
         }
     }
