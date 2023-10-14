@@ -3,6 +3,7 @@ package com.estudosrocketseat.todolist.task.controller;
 import com.estudosrocketseat.todolist.task.domain.Task;
 import com.estudosrocketseat.todolist.task.service.TaskService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> save(@RequestBody Task task, HttpServletRequest request) {
+    public ResponseEntity<Task> save(@Valid @RequestBody Task task, HttpServletRequest request) {
         var idUser = request.getAttribute("idUser");
         task.setIdUser((UUID) idUser);
 
@@ -35,7 +36,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> update(@RequestBody Task task, @PathVariable UUID id, HttpServletRequest request) {
+    public ResponseEntity<Task> update(@Valid @RequestBody Task task, @PathVariable UUID id, HttpServletRequest request) {
         var idUser = request.getAttribute("idUser");
         task.setIdUser((UUID) idUser);
         return ResponseEntity.ok(service.update(id, task));

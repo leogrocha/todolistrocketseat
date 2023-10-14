@@ -1,5 +1,7 @@
 package com.estudosrocketseat.todolist.task.service;
 
+import com.estudosrocketseat.todolist.errors.ControllerNotFoundException;
+import com.estudosrocketseat.todolist.errors.DatabaseException;
 import com.estudosrocketseat.todolist.task.domain.Task;
 import com.estudosrocketseat.todolist.task.repository.TaskRepository;
 import com.estudosrocketseat.todolist.utils.Utils;
@@ -24,11 +26,19 @@ public class TaskService {
 
     public Task update(UUID id, Task task) {
         var taskAntiga = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task não encontrada."));
+                .orElseThrow(() -> new ControllerNotFoundException("Task não encontrada."));
         task.setId(id);
+        validarUsuarioAlteracaoTarefa(taskAntiga.getIdUser(), task.getIdUser());
         Utils.copyNonNullProperties(task, taskAntiga);
         return repository.save(task);
     }
+
+    public void validarUsuarioAlteracaoTarefa(UUID idUserAtual, UUID idUserNovo) {
+        if(!idUserAtual.equals(idUserNovo)) {
+            throw new DatabaseException("Usuário não tem permissão para alterar essa tarefa.");
+        }
+    }
+
 
 
 
