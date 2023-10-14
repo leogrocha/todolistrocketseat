@@ -13,6 +13,10 @@
 <p>Projeto simples com o objetivo de permitir que um usuário crie as suas tarefas. Foi desenvolvido também a 
   possibilidade de criar um usuário e adicionei as validações necessárias para que o usuário tenha segurança e controle apenas das suas tarefas.</p>
 
+</br>
+<h4>Link do Deploy realizado</h4>
+<a href="https://todolistrockseatleonardorocha.onrender.com">Projeto Todolist</a>
+
 
 </br>
 <p>Agradecimentos a <a href="https://app.rocketseat.com.br/dashboard">Rocketseat</a>!<p>
